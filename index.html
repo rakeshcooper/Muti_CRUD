@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        li{
+            list-style: none;
+        }
+        .parentList{
+            display: flex;
+            gap: 50px;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        button{
+            cursor: pointer;
+        }
+
+        .edits{
+            background-color: lightgreen;
+        }
+
+        .dones{
+            background-color: lightcoral;
+        }
+        .close{
+            cursor: pointer;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+       <div class="mode">
+            <button class="nNote">Normal note</button>
+            <button class="cNote">Checkbox note</button>
+       </div>
+       <ul class="service">
+        
+       </ul>
+    </div>
+    <script type="module" src="index.js"></script>
+</body>
+</html>
