@@ -34,7 +34,7 @@ function createElement(list){
     console.log(modeTypes);
 }
 
-// This function used to render arrays local storage
+// This function used to render arrays from local storage
 function render(){
     modeTypes.forEach((element) => {
         const parser = new DOMParser();
