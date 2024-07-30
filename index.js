@@ -34,13 +34,16 @@ function createElement(list){
 
 
 //To remove the elements
-remove.forEach((element) => {
+remove.forEach((element,index) => {
     element.addEventListener("click", ()=> {
         console.log("removed");
         element.parentElement.remove()
+        // modeTypes.splice(list[index],1)
+        // modeTypes.splice(rId[index],1)
+        // console.log(modeTypes.splice(list[index],1));
 
+        console.log(modeTypes);
     })
-    
 })
 
 console.log(modeTypes);
