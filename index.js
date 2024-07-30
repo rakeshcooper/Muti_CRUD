@@ -26,10 +26,14 @@ function createElement(list){
     rId = crypto.randomUUID()
     console.log("normal note");
     const newElement = document.createElement("div");
+    const newID = document.createElement("p");
     newElement.innerHTML = list
-    services.appendChild(newElement.firstChild)
+    newID.innerHTML = rId
+    newElement.append(newID)
+    services.appendChild(newElement)
     modeTypes.push({list,rId})
     console.log(modeTypes);
+    console.log(newID);
 }
 
 
@@ -38,11 +42,10 @@ remove.forEach((element,index) => {
     element.addEventListener("click", ()=> {
         console.log("removed");
         element.parentElement.remove()
-        // modeTypes.splice(list[index],1)
-        // modeTypes.splice(rId[index],1)
-        // console.log(modeTypes.splice(list[index],1));
-
-        console.log(modeTypes);
+        // modeTypes.splice(index,1)
+        // console.log(modeTypes.splice(index,1));
+        localStorage.setItem("NData",JSON.stringify(modeTypes))
+        console.log(modeTypes[5]);
     })
 })
 
