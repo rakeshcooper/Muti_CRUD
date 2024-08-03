@@ -1,5 +1,6 @@
 let rId
 let modeTypes = JSON.parse(localStorage.getItem("NData") ?? "[]")
+let filteredmodeTypes = []
 let mode = document.querySelector(".mode")
 let services = document.querySelector(".service")
 render()
@@ -15,9 +16,9 @@ mode.addEventListener("click",(e)=>{
         createElement(Clist)
         console.log("checkbox note");
     } 
-   
     localStorage.setItem("NData",JSON.stringify(modeTypes))
     console.log("active");
+   
 })
 let remove = document.querySelectorAll(".close")
 
@@ -31,26 +32,28 @@ function createElement(list){
     services.appendChild(newElement.firstChild)
     modeTypes.push({list,rId})
     console.log(modeTypes);
+    removefirstday()
 }
 
 
 
-
 //To remove the elements
-let nodeList = document.querySelectorAll(".nodeList")
-nodeList.forEach((element) => {
-    element.addEventListener("click", ()=> {
-        console.log(element);
+function removefirstday(){
+    let nodeList = document.querySelectorAll(".nodeList")
+    nodeList.forEach((element) => {
         let dataIdattr = element.getAttribute("data-ids")
+        console.log(element);
         console.log(dataIdattr);
-        console.log(modeTypes);
-        let filteredmodeTypes = modeTypes.filter((val) => {return val.rId !== dataIdattr});
-        console.log(filteredmodeTypes);
-        modeTypes = filteredmodeTypes
-        element.remove()
-        localStorage.setItem("NData",JSON.stringify(modeTypes))
+        element.addEventListener("click", ()=> {
+            console.log(modeTypes);
+            filteredmodeTypes = modeTypes.filter((val) => {return val.rId !== dataIdattr});
+            console.log(filteredmodeTypes);
+            modeTypes = filteredmodeTypes
+            element.remove()
+            localStorage.setItem("NData",JSON.stringify(modeTypes))
+        })
     })
-})
+}
 
 
 
@@ -62,7 +65,8 @@ function render(){
         const newElement = document.createElement("div");
         newElement.innerHTML = element.list
         newElement.firstChild.setAttribute('data-ids' , element.rId);
-        services.append(newElement.firstChild) 
+        services.append(newElement.firstChild)
+        removefirstday() 
     })
 }
 
