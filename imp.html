@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        
+        .nodeList{
+            cursor: pointer;
+        }
+        .green-add{
+            color: green;
+            font-size: 25px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <ul>
+            <li class="nodeList"><p class="rID">123</p></li>
+            <li class="nodeList"><p class="rID">1234</p></li>
+            <li class="nodeList"><p class="rID" >Click me to change color green below</p></li>
+        </ul>
+        <p class="green">Green signal</p>
+    </div>
+    <script>
+        let arr = [{rids: "12345"},"1234","1245","123"]
+        // let dataID = document.getAttribute("data-ids");
+        let list = document.querySelectorAll(".nodeList");
+        let green = document.querySelector(".green");
+        let rid = document.querySelector(".rID");
+        console.log(rid);
+        console.log(arr);
+        rid.setAttribute('data-ids' , arr[0].rids);
+        list.forEach((element) => {
+            element.addEventListener("click", (e) => {
+                let eTargetattr = e.target.getAttribute("data-ids")
+                if(eTargetattr == "12345"){
+                    green.classList.add("green-add")
+                    element.remove()
+                    console.log(arr);
+                    const filteredarr = arr.filter(val => {return val.rids != eTargetattr});
+                    console.log(filteredarr);
+                    arr = filteredarr
+                    console.log(arr);    
+                }
+                //  console.log(e.target.getAttribute("data-ids"));    
+            })
+        })
+    </script>
+</body>
+</html>

@@ -7,11 +7,11 @@ render()
 // To select normal note or Checkbox note
 mode.addEventListener("click",(e)=>{
     if(e.target.classList.contains("nNote")){
-        let Nlist = `<li><p>title</p><span class="close">X</span><textarea rows="4" cols="50"></textarea></li>`
+        let Nlist = `<li class="nodeList" ><p>title</p><span class="close">X</span><textarea rows="4" cols="50"></textarea></li>`
         createElement(Nlist)
         console.log("normal note");
     } else if(e.target.classList.contains("cNote")){
-        let Clist =  `<li><p>title</p><span class="close">X</span><input type="todo" name="todo" id="todo"> <button>Add Task</button></li>`
+        let Clist =  `<li class="nodeList" ><p>title</p><span class="close">X</span><input type="todo" name="todo" id="todo"> <button>Add Task</button></li>`
         createElement(Clist)
         console.log("checkbox note");
     } 
@@ -26,26 +26,32 @@ function createElement(list){
     rId = crypto.randomUUID()
     console.log("normal note");
     const newElement = document.createElement("div");
-    const newID = document.createElement("p");
     newElement.innerHTML = list
-    newID.innerHTML = rId
-    newElement.append(newID)
-    services.appendChild(newElement)
+    newElement.firstChild.setAttribute('data-ids' , rId);
+    services.appendChild(newElement.firstChild)
     modeTypes.push({list,rId})
     console.log(modeTypes);
-    console.log(newID);
 }
 
 
+
+
 //To remove the elements
-remove.forEach((element,index) => {
-    element.addEventListener("click", ()=> {
-        console.log("removed");
-        element.parentElement.remove()
-        // modeTypes.splice(index,1)
-        // console.log(modeTypes.splice(index,1));
-        localStorage.setItem("NData",JSON.stringify(modeTypes))
-        console.log(modeTypes[5]);
+let nodeList = document.querySelectorAll(".nodeList")
+nodeList.forEach((element,index) => {
+    element.addEventListener("click", (e)=> {
+        console.log(element);
+        let dataIdattr = element.getAttribute("data-ids")
+        console.log(dataIdattr);
+        console.log(modeTypes[index].rId);
+            // if(dataIdattr == modeTypes[index].Id){
+                console.log("removed");
+                element.remove()
+                const filteredmodeTypes = modeTypes.filter(val => {return val.rId != dataIdattr});
+                console.log(filteredmodeTypes);
+                // localStorage.setItem("NData",JSON.stringify(modeTypes))
+                
+            // }
     })
 })
 
@@ -56,6 +62,7 @@ function render(){
     modeTypes.forEach((element) => {
         const newElement = document.createElement("div");
         newElement.innerHTML = element.list
+        newElement.firstChild.setAttribute('data-ids' , element.rId);
         services.append(newElement.firstChild) 
     })
 }
