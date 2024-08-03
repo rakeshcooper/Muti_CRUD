@@ -38,22 +38,21 @@ function createElement(list){
 
 //To remove the elements
 let nodeList = document.querySelectorAll(".nodeList")
-nodeList.forEach((element,index) => {
-    element.addEventListener("click", (e)=> {
+nodeList.forEach((element) => {
+    element.addEventListener("click", ()=> {
         console.log(element);
         let dataIdattr = element.getAttribute("data-ids")
         console.log(dataIdattr);
-        console.log(modeTypes[index].rId);
-            // if(dataIdattr == modeTypes[index].Id){
-                console.log("removed");
-                element.remove()
-                const filteredmodeTypes = modeTypes.filter(val => {return val.rId != dataIdattr});
-                console.log(filteredmodeTypes);
-                // localStorage.setItem("NData",JSON.stringify(modeTypes))
-                
-            // }
+        console.log(modeTypes);
+        let filteredmodeTypes = modeTypes.filter((val) => {return val.rId !== dataIdattr});
+        console.log(filteredmodeTypes);
+        modeTypes = filteredmodeTypes
+        element.remove()
+        localStorage.setItem("NData",JSON.stringify(modeTypes))
     })
 })
+
+
 
 console.log(modeTypes);
 
