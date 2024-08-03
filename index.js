@@ -55,8 +55,6 @@ function removefirstday(){
     })
 }
 
-
-
 console.log(modeTypes);
 
 // This function used to render arrays from local storage
