@@ -3,6 +3,7 @@ let modeTypes = JSON.parse(localStorage.getItem("NData") ?? "[]")
 let filteredmodeTypes = []
 let mode = document.querySelector(".mode")
 let services = document.querySelector(".service")
+let currentIndex = 0
 render()
 
 // To select normal note or Checkbox note
@@ -12,7 +13,7 @@ mode.addEventListener("click",(e)=>{
         createElement(Nlist)
         console.log("normal note");
     } else if(e.target.classList.contains("cNote")){
-        let Clist =  `<div class="nodeList" ><span class="close">X</span><p>Note title</p><input type="text" name="name-title" class="class="name-title"" id="name-title"><input type="todo" name="todo" id="todo"> <button>Add Task</button></div>`
+        let Clist =  `<div class="nodeList" ><span class="close">X</span><p>Note title</p><input type="text" name="name-title" class="class="name-title" id="name-title"><input type="todo" name="todo" id="todo"> <button>Add Task</button></div>`
         createElement(Clist)
         console.log("checkbox note");
     } 
@@ -30,10 +31,10 @@ function createElement(list){
     newElement.innerHTML = list
     newElement.firstChild.setAttribute('data-ids' , rId);
     services.appendChild(newElement)
-    // let title = document.querySelector(".name-title").value
+    let title = ""
     // let desc = document.querySelector(".desc").value = "this is desc"
     // console.log(title,desc);
-    modeTypes.push({list,rId})
+    modeTypes.push({list,rId,title})
     localStorage.setItem("NData",JSON.stringify(modeTypes))
     console.log(modeTypes);
     removefirstarr()
@@ -41,10 +42,10 @@ function createElement(list){
 
 
 
-//This function used to remove the note elements
+//This function used to remove the note elements in array and dom
 function removefirstarr(){
     let nodeList = document.querySelectorAll(".nodeList")
-    nodeList.forEach((element) => {
+    nodeList.forEach((element,index) => {
     let dataIdattr = element.getAttribute("data-ids")
     console.log(element);
     console.log(dataIdattr);
@@ -56,23 +57,41 @@ function removefirstarr(){
                 modeTypes = filteredmodeTypes
                 element.remove()
                 localStorage.setItem("NData",JSON.stringify(modeTypes))
-            }    
+            } 
+                
+        })
+    element.addEventListener("input", (e)=> {
+        let titValue = e.target.classList.contains("name-title")
+           if(titValue){
+                currentIndex = index
+                titValue = e.target.value
+                modeTypes[currentIndex].title = e.target.value 
+            }
+            localStorage.setItem("NData",JSON.stringify(modeTypes))    
         })
     })
 }
 
 console.log(modeTypes);
 
+// To add title and description in array and dom
+
+
+
+
 //This function used to render arrays from local storage for initial load
 function render(){
-    let nodeList = document.querySelectorAll(".nodeList")
-    modeTypes.forEach((element,index) => {
+    modeTypes.forEach((element) => {
         const newElement = document.createElement("li");
         newElement.innerHTML = element.list
-        // newElement.className = "nodeList"
         newElement.firstChild.setAttribute('data-ids' , element.rId);
-        console.log(newElement.firstChild);    
-        console.log(newElement);
+    //    if (element.title.length > 0) {
+    //         newElement.firstChild.children[2].value = element.title
+    //    } else{
+    //         newElement.firstChild.children[2].value = ""    
+    //    }
+    console.log(element.title.length);
+     
         services.append(newElement.firstChild)
         removefirstarr() 
     })
