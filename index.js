@@ -67,8 +67,11 @@ function removefirstarr(){
                 titValue = e.target.value
                 modeTypes[currentIndex].title = e.target.value 
             }
+            console.log(modeTypes);
             localStorage.setItem("NData",JSON.stringify(modeTypes))    
         })
+        
+        
     })
 }
 
@@ -85,11 +88,16 @@ function render(){
         const newElement = document.createElement("li");
         newElement.innerHTML = element.list
         newElement.firstChild.setAttribute('data-ids' , element.rId);
-    //    if (element.title.length > 0) {
-    //         newElement.firstChild.children[2].value = element.title
-    //    } else{
-    //         newElement.firstChild.children[2].value = ""    
-    //    }
+       if (element.title.length > 0) {
+            newElement.firstChild.children[2].value = element.title
+       } else{
+            newElement.firstChild.children[2].value = ""    
+       }
+//     if (element.title.length > 0) {
+//         newElement.querySelector("#name-title").value = element.title
+//    } else{
+//         newElement.querySelector("#name-title").value = ""    
+//    }
     console.log(element.title.length);
      
         services.append(newElement.firstChild)
