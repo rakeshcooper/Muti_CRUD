@@ -3,17 +3,16 @@ let modeTypes = JSON.parse(localStorage.getItem("NData") ?? "[]")
 let filteredmodeTypes = []
 let mode = document.querySelector(".mode")
 let services = document.querySelector(".service")
-let currentIndex = 0
 render()
 
 // To select normal note or Checkbox note
 mode.addEventListener("click",(e)=>{
     if(e.target.classList.contains("nNote")){
-        let Nlist = `<div class="nodeList"><span class="close">X</span><p>Note title</p><input type="text" name="name-title" class="name-title" id="name-title"><textarea class="desc" rows="4" cols="50"></textarea></div>`
+        let Nlist = `<div class="nodeList"><span class="close">X</span><p>Note title</p><input type="text" name="name-title" class="name-title" id="name-title"><textarea id="desc" class="desc" rows="4" cols="50"></textarea></div>`
         createElement(Nlist)
         console.log("normal note");
     } else if(e.target.classList.contains("cNote")){
-        let Clist =  `<div class="nodeList" ><span class="close">X</span><p>Note title</p><input type="text" name="name-title" class="class="name-title" id="name-title"><input type="todo" name="todo" id="todo"> <button>Add Task</button></div>`
+        let Clist =  `<div class="nodeList" ><span class="close">X</span><p>Note title</p><input type="text" name="name-title" class="name-title" id="name-title"><input type="todo" name="todo" id="todo"> <button>Add Task</button></div>`
         createElement(Clist)
         console.log("checkbox note");
     } 
@@ -32,17 +31,17 @@ function createElement(list){
     newElement.firstChild.setAttribute('data-ids' , rId);
     services.appendChild(newElement)
     let title = ""
+    let description = ""
     // let desc = document.querySelector(".desc").value = "this is desc"
     // console.log(title,desc);
-    modeTypes.push({list,rId,title})
+    modeTypes.push({list,rId})
     localStorage.setItem("NData",JSON.stringify(modeTypes))
     console.log(modeTypes);
     removefirstarr()
 }
 
 
-
-//This function used to remove the note elements in array and dom
+//This function used to remove the note elements in array and dom and add title and description
 function removefirstarr(){
     let nodeList = document.querySelectorAll(".nodeList")
     nodeList.forEach((element,index) => {
@@ -62,22 +61,30 @@ function removefirstarr(){
         })
     element.addEventListener("input", (e)=> {
         let titValue = e.target.classList.contains("name-title")
+        let descValue = e.target.classList.contains("desc")
+        let currenttitleIndex = 0
+        let currentdescIndex = 0
            if(titValue){
-                currentIndex = index
+            currenttitleIndex = index
                 titValue = e.target.value
-                modeTypes[currentIndex].title = e.target.value 
+                modeTypes[index].title = e.target.value 
+            } 
+            else if(descValue){
+                currentdescIndex = 0
+                descValue = e.target.value
+                modeTypes[index].description = e.target.value
             }
             console.log(modeTypes);
             localStorage.setItem("NData",JSON.stringify(modeTypes))    
         })
+
+        
         
         
     })
 }
 
 console.log(modeTypes);
-
-// To add title and description in array and dom
 
 
 
@@ -88,17 +95,33 @@ function render(){
         const newElement = document.createElement("li");
         newElement.innerHTML = element.list
         newElement.firstChild.setAttribute('data-ids' , element.rId);
-       if (element.title.length > 0) {
-            newElement.firstChild.children[2].value = element.title
-       } else{
-            newElement.firstChild.children[2].value = ""    
-       }
+    //    if (element.title.length > 0) {
+    //         newElement.firstChild.children[2].value = element.title
+    //    } else{
+    //         newElement.firstChild.children[2].value = ""    
+    //    }
+
+       
+        newElement.firstChild.children[2].value = element.title
+        newElement.firstChild.children[3].value = element.description
 //     if (element.title.length > 0) {
 //         newElement.querySelector("#name-title").value = element.title
-//    } else{
+//    } else if(element.title.length == 0){
 //         newElement.querySelector("#name-title").value = ""    
+//    } else if (element.description.length > 0){
+//         newElement.querySelector("#desc").value = element.description
+//    } else if(element.title.length == 0){
+//         newElement.querySelector("#desc").value = ""    
 //    }
-    console.log(element.title.length);
+   
+//    if (element.title == "" && element.description == "") {
+//         newElement.querySelector("#name-title").value = ""
+//         newElement.querySelector("#desc").value = ""
+//     } else if (element.title != "" && element.description != ""){
+//         newElement.querySelector("#name-title").value = element.title
+//         newElement.querySelector("#desc").value = element.description    
+//     }
+    console.log(element.description);
      
         services.append(newElement.firstChild)
         removefirstarr() 
