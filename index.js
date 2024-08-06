@@ -30,18 +30,18 @@ function createElement(list){
     newElement.innerHTML = list
     newElement.firstChild.setAttribute('data-ids' , rId);
     services.appendChild(newElement)
-    let title = ""
-    let description = ""
+    let title
+    let description
     // let desc = document.querySelector(".desc").value = "this is desc"
     // console.log(title,desc);
-    modeTypes.push({list,rId})
+    modeTypes.push({list,rId,title:"",description:""})
     localStorage.setItem("NData",JSON.stringify(modeTypes))
     console.log(modeTypes);
     removefirstarr()
 }
 
 
-//This function used to remove the note elements in array and dom and add title and description
+//This function used to remove the note elements in array and dom and add title and description in dom and array
 function removefirstarr(){
     let nodeList = document.querySelectorAll(".nodeList")
     nodeList.forEach((element,index) => {
@@ -62,22 +62,29 @@ function removefirstarr(){
     element.addEventListener("input", (e)=> {
         let titValue = e.target.classList.contains("name-title")
         let descValue = e.target.classList.contains("desc")
-        let currenttitleIndex = 0
-        let currentdescIndex = 0
            if(titValue){
-            currenttitleIndex = index
-                titValue = e.target.value
-                modeTypes[index].title = e.target.value 
-            } 
-            else if(descValue){
-                currentdescIndex = 0
-                descValue = e.target.value
-                modeTypes[index].description = e.target.value
+              let newTitleValue =  modeTypes.map((val) => {
+                    if(val.rId == dataIdattr){
+                        return val.title = e.target.value
+                    }  
+                })
+                console.log(newTitleValue);
+                
+            } else if(descValue){
+                modeTypes.map((val) => {
+                    if(val.rId == dataIdattr){
+                       return val.description = e.target.value
+                    }  
+                })
+                // console.log(newDescValue);
+                
+
             }
             console.log(modeTypes);
             localStorage.setItem("NData",JSON.stringify(modeTypes))    
         })
 
+        
         
         
         
@@ -88,41 +95,17 @@ console.log(modeTypes);
 
 
 
-
 //This function used to render arrays from local storage for initial load
 function render(){
     modeTypes.forEach((element) => {
         const newElement = document.createElement("li");
+        // newElement.querySelector("#name-title").value = ""
+        // newElement.querySelector("#desc").value = ""
         newElement.innerHTML = element.list
         newElement.firstChild.setAttribute('data-ids' , element.rId);
-    //    if (element.title.length > 0) {
-    //         newElement.firstChild.children[2].value = element.title
-    //    } else{
-    //         newElement.firstChild.children[2].value = ""    
-    //    }
-
-       
-        newElement.firstChild.children[2].value = element.title
-        newElement.firstChild.children[3].value = element.description
-//     if (element.title.length > 0) {
-//         newElement.querySelector("#name-title").value = element.title
-//    } else if(element.title.length == 0){
-//         newElement.querySelector("#name-title").value = ""    
-//    } else if (element.description.length > 0){
-//         newElement.querySelector("#desc").value = element.description
-//    } else if(element.title.length == 0){
-//         newElement.querySelector("#desc").value = ""    
-//    }
-   
-//    if (element.title == "" && element.description == "") {
-//         newElement.querySelector("#name-title").value = ""
-//         newElement.querySelector("#desc").value = ""
-//     } else if (element.title != "" && element.description != ""){
-//         newElement.querySelector("#name-title").value = element.title
-//         newElement.querySelector("#desc").value = element.description    
-//     }
-    console.log(element.description);
-     
+        newElement.querySelector("#name-title").value = element.title
+        newElement.querySelector("#desc").value = element.description
+        console.log(element.description); 
         services.append(newElement.firstChild)
         removefirstarr() 
     })
