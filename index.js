@@ -12,7 +12,7 @@ mode.addEventListener("click",(e)=>{
         createElement(Nlist)
         console.log("normal note");
     } else if(e.target.classList.contains("cNote")){
-        let Clist =  `<div class="nodeList" ><span class="close">X</span><p>Note title</p><input type="text" name="name-title" class="name-title" id="name-title"><input type="todo" name="todo" id="todo"> <button>Add Task</button></div>`
+        let Clist =  `<div class="nodeList" ><span class="close">X</span><p>Note title</p><input type="text" name="name-title" class="name-title" id="name-title"><input type="todo"  name="todo" id="todo"> <button>Add Task</button></div>`
         createElement(Clist)
         console.log("checkbox note");
     } 
@@ -82,12 +82,7 @@ function removefirstarr(){
             }
             console.log(modeTypes);
             localStorage.setItem("NData",JSON.stringify(modeTypes))    
-        })
-
-        
-        
-        
-        
+        })        
     })
 }
 
@@ -97,17 +92,28 @@ console.log(modeTypes);
 
 //This function used to render arrays from local storage for initial load
 function render(){
+    
     modeTypes.forEach((element) => {
-        const newElement = document.createElement("li");
-        // newElement.querySelector("#name-title").value = ""
-        // newElement.querySelector("#desc").value = ""
-        newElement.innerHTML = element.list
-        newElement.firstChild.setAttribute('data-ids' , element.rId);
-        newElement.querySelector("#name-title").value = element.title
-        newElement.querySelector("#desc").value = element.description
-        console.log(element.description); 
-        services.append(newElement.firstChild)
-        removefirstarr() 
+         
+       
+            const newElement = document.createElement("li");
+            // newElement.querySelector("#name-title").value = ""
+            // newElement.querySelector("#desc").value = ""
+            newElement.innerHTML = element.list
+            newElement.firstChild.setAttribute('data-ids' , element.rId);
+            newElement.querySelector(".name-title").value = element.title
+            if(newElement.firstChild.children[3].classList.contains("desc")){
+                newElement.querySelector(".desc").value = element.description
+            }
+            
+            
+            console.log(element.description); 
+            services.append(newElement)
+            removefirstarr()   
+     
+            console.log("modeTypes array is empty please add notes");
+            
+       
     })
 }
 
