@@ -30,10 +30,6 @@ function createElement(list){
     newElement.innerHTML = list
     newElement.firstChild.setAttribute('data-ids' , rId);
     services.appendChild(newElement)
-    let title
-    let description
-    // let desc = document.querySelector(".desc").value = "this is desc"
-    // console.log(title,desc);
     modeTypes.push({list,rId,title:"",description:""})
     localStorage.setItem("NData",JSON.stringify(modeTypes))
     console.log(modeTypes);
