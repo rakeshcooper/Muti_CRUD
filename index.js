@@ -36,6 +36,7 @@ function createElement(list){
     localStorage.setItem("NData",JSON.stringify(modeTypes))
     console.log(modeTypes);
     removefirstarr()
+    // createTodoelement()
 }
 
 
@@ -79,12 +80,12 @@ function removefirstarr(){
 console.log(modeTypes);
 
 // This code to add todo list
-function createTodoelement(){
+// function createTodoelement(){
     let addBtn = document.querySelectorAll(".addBtn")
-    let todoBox = document.querySelector(".todos")
     let todoList = ` <div class="todonodeList"><input type="text" name="tList" class="tList" id="tList"><input type="checkbox" name="todoCheck" class="todoCheck" id="todoCheck"><button class="delBtn">X</button></div>`
     addBtn.forEach((element) => {
         element.addEventListener("click",()=> {
+            // element.nextSibling.innerHTML = ""
             rTid = crypto.randomUUID()
             console.log("todolist");
             const newElement = document.createElement("li");
@@ -98,18 +99,20 @@ function createTodoelement(){
                     val.TList.push({todoList,rTid})
                 }
             })
+            nestedarr()
             localStorage.setItem("NData",JSON.stringify(modeTypes))
         })
+        
     })
-}
+    
+    
+    
+// }
 
-
-
-
-// This function to remove nested array and dom
-
-let todonodeList = document.querySelectorAll(".todonodeList")
-todonodeList.forEach((element => {
+    // This function to remove nested array and dom
+function nestedarr(){
+    let todonodeList = document.querySelectorAll(".todonodeList")
+    todonodeList.forEach((element => {
     element.addEventListener("click", (e)=>{
         let datatodoIdattr = element.getAttribute("data-rtids")
         console.log(datatodoIdattr);
@@ -123,8 +126,9 @@ todonodeList.forEach((element => {
             element.remove()    
             localStorage.setItem("NData",JSON.stringify(modeTypes))
         }
-    })
-}))
+        })
+    }))
+}
 
 
 
@@ -139,18 +143,17 @@ function render(){
                 newElement.querySelector(".desc").value = element.description
             }
             console.log(element.description); 
-            services.append(newElement)
-            
+            services.append(newElement)    
             element.TList.map((telement) => {
-                let todoBox = document.querySelector(".todos")
+                // let todoBox = document.querySelector(".todos")
                 const newtodoElement = document.createElement("li");
                 newtodoElement.innerHTML = telement.todoList
                 newtodoElement.children[0].setAttribute('data-rtids' , telement.rTid);
                 // todoBox.append(newtodoElement)
                 newElement.children[0].lastChild.append(newtodoElement)
-            })
-             
+            })         
     })
-    removefirstarr() 
-    createTodoelement() 
+    removefirstarr()
+    // createTodoelement()
+    nestedarr() 
 }
