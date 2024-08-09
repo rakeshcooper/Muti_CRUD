@@ -18,14 +18,14 @@ mode.addEventListener("click",(e)=>{
         createElement(Clist)
         console.log("checkbox note");
     } 
-    localStorage.setItem("NData",JSON.stringify(modeTypes))
+    // localStorage.setItem("NData",JSON.stringify(modeTypes))
     console.log("active");
    
 })
 let remove = document.querySelectorAll(".close")
 
 // This function is used to create element and pushed those element to array 
-function createElement(list){
+function createElement(list,e){
     rId = crypto.randomUUID()
     console.log("normal note");
     const newElement = document.createElement("li");
@@ -33,8 +33,34 @@ function createElement(list){
     newElement.firstChild.setAttribute('data-ids' , rId);
     services.appendChild(newElement)
     modeTypes.push({list,rId,title:"",description:"",TList:[]})
-    localStorage.setItem("NData",JSON.stringify(modeTypes))
+    // localStorage.setItem("NData",JSON.stringify(modeTypes))
     console.log(modeTypes);
+    let todoaddele = newElement.querySelector(".addBtn")
+   if(todoaddele){
+            todoaddele.addEventListener("click", ()=> {
+                rTid = crypto.randomUUID()
+                console.log("todolist");
+                const newElementli = document.createElement("li");
+                newElementli.innerHTML = todoList
+                newElementli.children[0].setAttribute('data-rtids' , rTid);
+            // todoBox.appendChild(newElement)
+                newElement.lastChild.appendChild(newElementli)
+                let dataIdattr = newElement.firstChild.getAttribute("data-ids")
+                console.log(dataIdattr);
+                
+                    modeTypes.forEach((val) => {
+                if (val.rId == dataIdattr) {
+                    val.TList.push({todoList,rTid})
+                    console.log(val.TList[0]);
+                    localStorage.setItem("NData",JSON.stringify(modeTypes))
+                }
+                nestedarr()
+            })
+            })
+            
+            
+   }
+     localStorage.setItem("NData",JSON.stringify(modeTypes))
     removefirstarr()
     // createTodoelement()
 }
@@ -53,7 +79,7 @@ function removefirstarr(){
                 modeTypes = filteredmodeTypes
                 element.remove()
                 localStorage.setItem("NData",JSON.stringify(modeTypes))
-            }        
+            }
         })
     element.addEventListener("input", (e)=> {
         let titValue = e.target.classList.contains("name-title")
@@ -74,18 +100,20 @@ function removefirstarr(){
             }
             console.log(modeTypes);
             localStorage.setItem("NData",JSON.stringify(modeTypes))    
-        })        
+        })
     })
+
+
 }
 console.log(modeTypes);
 
 // This code to add todo list
-// function createTodoelement(){
+let todoList = ` <div class="todonodeList"><input type="text" name="tList" class="tList" id="tList"><input type="checkbox" name="todoCheck" class="todoCheck" id="todoCheck"><button class="delBtn">X</button></div>`
+function createTodoelement(){
     let addBtn = document.querySelectorAll(".addBtn")
-    let todoList = ` <div class="todonodeList"><input type="text" name="tList" class="tList" id="tList"><input type="checkbox" name="todoCheck" class="todoCheck" id="todoCheck"><button class="delBtn">X</button></div>`
     addBtn.forEach((element) => {
-        element.addEventListener("click",()=> {
-            // element.nextSibling.innerHTML = ""
+        
+        element.addEventListener("click",()=> {            
             rTid = crypto.randomUUID()
             console.log("todolist");
             const newElement = document.createElement("li");
@@ -102,12 +130,9 @@ console.log(modeTypes);
             nestedarr()
             localStorage.setItem("NData",JSON.stringify(modeTypes))
         })
-        
-    })
-    
-    
-    
-// }
+    })   
+}
+
 
     // This function to remove nested array and dom
 function nestedarr(){
@@ -154,6 +179,6 @@ function render(){
             })         
     })
     removefirstarr()
-    // createTodoelement()
+    createTodoelement()
     nestedarr() 
 }
