@@ -10,11 +10,12 @@ render()
 // To select normal note or Checkbox note
 mode.addEventListener("click",(e)=>{
     if(e.target.classList.contains("nNote")){
-        let Nlist = `<div class="nodeList"><span class="close">X</span><p>Note title</p><input type="text" name="name-title" class="name-title" id="name-title"><textarea id="desc" class="desc" rows="4" cols="50"></textarea></div>`
+        let Nlist = `<div class="nodeList"><span class="close">✖</span><h4>Note title</h4><input type="text" name="name-title" class="name-title" id="name-title" placeholder="Enter Title"><textarea id="desc" class="desc" rows="4" cols="50" placeholder="Enter Description"></textarea></div>`
         createElement(Nlist)
         console.log("normal note");
     } else if(e.target.classList.contains("cNote")){
-        let Clist =  `<div class="nodeList" ><span class="close">X</span><p>Note title</p><input type="text" name="name-title" class="name-title" id="name-title"><button class="addBtn">Add Task</button><ul class="todos"></ul></div>`
+        let Clist =  `<div class="nodeList" ><span class="close">✖</span><h4>Note title</h4><input type="text" name="name-title" class="name-title" id="name-title" placeholder="Enter Title"><button class="addBtn">Add Task</button><ul class="todos"><h3>Todo List</h3>
+            <p>Add tasks to display</p></ul></div>`
         createElement(Clist)
         console.log("checkbox note");
     } 
@@ -110,7 +111,7 @@ function removefirstarr(){
 console.log(modeTypes);
 
 // This code to add todo list after reload
-let todoList = ` <div class="todonodeList"><input type="text" name="tList" class="tList" id="tList"><input type="checkbox" name="todoCheck" class="todoCheck" id="todoCheck"><button class="delBtn">X</button></div>`
+let todoList = ` <div class="todonodeList"><input type="text" name="tList" class="tList" id="tList" placeholder="Enter Task"><input type="checkbox" name="todoCheck"  class="todoCheck" id="todoCheck"><button class="delBtn">✖</button></div>`
 function createTodoelement(){
     let addBtn = document.querySelectorAll(".addBtn")
     addBtn.forEach((element) => {
