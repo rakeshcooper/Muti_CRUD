@@ -14,7 +14,7 @@ mode.addEventListener("click",(e)=>{
         createElement(Nlist)
         console.log("normal note");
     } else if(e.target.classList.contains("cNote")){
-        let Clist =  `<div class="nodeList" ><span class="close">X</span><p>Note title</p><input type="text" name="name-title" class="name-title" id="name-title"><input type="todo"  name="todo" id="todo"> <button class="addBtn">Add Task</button><ul class="todos"></ul></div>`
+        let Clist =  `<div class="nodeList" ><span class="close">X</span><p>Note title</p><input type="text" name="name-title" class="name-title" id="name-title"><button class="addBtn">Add Task</button><ul class="todos"></ul></div>`
         createElement(Clist)
         console.log("checkbox note");
     } 
@@ -47,10 +47,9 @@ function createElement(list,e){
                 newElement.firstChild.lastChild.appendChild(newElementli)
                 let dataIdattr = newElement.firstChild.getAttribute("data-ids")
                 console.log(dataIdattr);
-                
                     modeTypes.forEach((val) => {
                 if (val.rId == dataIdattr) {
-                    val.TList.push({todoList,rTid})
+                    val.TList.push({todoList,rTid,tododata:"",isChecked:false})
                     console.log(val.TList[0]);
                     localStorage.setItem("NData",JSON.stringify(modeTypes))
                 }
@@ -101,13 +100,16 @@ function removefirstarr(){
             console.log(modeTypes);
             localStorage.setItem("NData",JSON.stringify(modeTypes))    
         })
+
+        console.log(element.lastChild.children[0]);
+            
     })
 
 
 }
 console.log(modeTypes);
 
-// This code to add todo list
+// This code to add todo list after reload
 let todoList = ` <div class="todonodeList"><input type="text" name="tList" class="tList" id="tList"><input type="checkbox" name="todoCheck" class="todoCheck" id="todoCheck"><button class="delBtn">X</button></div>`
 function createTodoelement(){
     let addBtn = document.querySelectorAll(".addBtn")
@@ -124,12 +126,14 @@ function createTodoelement(){
             let dataIdattr = element.parentElement.getAttribute("data-ids")
             modeTypes.forEach((val) => {
                 if (val.rId == dataIdattr) {
-                    val.TList.push({todoList,rTid})
+                    val.TList.push({todoList,rTid,tododata:"",isChecked:false})
                 }
             })
             nestedarr()
             localStorage.setItem("NData",JSON.stringify(modeTypes))
         })
+
+
     })   
 }
 
@@ -152,6 +156,25 @@ function nestedarr(){
             localStorage.setItem("NData",JSON.stringify(modeTypes))
         }
         })
+
+        // element.querySelectorAll(".todoCheck")
+    
+        element.addEventListener("input", (e)=> {
+            let todovalue = e.target.classList.contains("tList")
+            if(todovalue){
+                let datatodoIdattr = element.getAttribute("data-rtids")
+                modeTypes.map((tval) => {
+                 let newtodovalue = tval.TList.map((val) => {
+                        if (val.rTid == datatodoIdattr){
+                            return val.tododata = e.target.value
+                        }     
+                    })
+                    localStorage.setItem("NData",JSON.stringify(modeTypes))    
+                }
+                
+        )}
+        })
+        
     }))
 }
 
@@ -176,6 +199,7 @@ function render(){
                 newtodoElement.children[0].setAttribute('data-rtids' , telement.rTid);
                 // todoBox.append(newtodoElement)
                 newElement.children[0].lastChild.append(newtodoElement)
+                newtodoElement.querySelector(".tList").value = telement.tododata
             })         
     })
     removefirstarr()
