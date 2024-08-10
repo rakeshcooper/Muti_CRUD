@@ -154,8 +154,36 @@ function nestedarr(){
             })
             element.remove()    
             localStorage.setItem("NData",JSON.stringify(modeTypes))
+        } else if(e.target.classList.contains("todoCheck")){
+                let todocheck = element.querySelector(".todoCheck")
+                let  tlist = element.querySelector(".tList")
+                if(todocheck.checked == true){
+                    tlist.style.textDecoration = "line-through"
+                    modeTypes.map((tval) => {
+                        tval.TList.map((val) => {
+                               if (val.rTid == datatodoIdattr){
+                                   return val.isChecked = true
+                               }     
+                           })
+                           localStorage.setItem("NData",JSON.stringify(modeTypes))    
+                       }
+                    )
+                    
+
+                } else if((todocheck.checked == false)) {
+                    tlist.style.textDecoration = "none"
+                    modeTypes.map((tval) => {
+                        tval.TList.map((val) => {
+                               if (val.rTid == datatodoIdattr){
+                                   return val.isChecked = false
+                               }     
+                           })
+                           localStorage.setItem("NData",JSON.stringify(modeTypes))    
+                       }
+                    )
+                }
         }
-        })
+    })
 
         // element.querySelectorAll(".todoCheck")
     
@@ -164,7 +192,7 @@ function nestedarr(){
             if(todovalue){
                 let datatodoIdattr = element.getAttribute("data-rtids")
                 modeTypes.map((tval) => {
-                 let newtodovalue = tval.TList.map((val) => {
+                 tval.TList.map((val) => {
                         if (val.rTid == datatodoIdattr){
                             return val.tododata = e.target.value
                         }     
@@ -177,7 +205,6 @@ function nestedarr(){
         
     }))
 }
-
 
 
 //This function used to render arrays from local storage for initial load
@@ -200,6 +227,11 @@ function render(){
                 // todoBox.append(newtodoElement)
                 newElement.children[0].lastChild.append(newtodoElement)
                 newtodoElement.querySelector(".tList").value = telement.tododata
+                if(telement.isChecked == true){
+                    newtodoElement.querySelector(".todoCheck").checked = true
+                    newtodoElement.querySelector(".tList").style.textDecoration = "line-through"
+                    // console.log("true");    
+                }
             })         
     })
     removefirstarr()
