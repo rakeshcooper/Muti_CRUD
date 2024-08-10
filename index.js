@@ -7,6 +7,21 @@ let rTid
 let filteredtodoList = []
 render()
 
+//to select mode
+
+let taskBtn = document.querySelector(".task-btn")
+let closeTaskBtn = document.querySelector(".close-task")
+let taskCon = document.querySelector(".task-con")
+taskBtn.addEventListener("click", ()=> {
+    mode.style.display = "block"
+    taskCon.style.display = "none"
+})
+
+closeTaskBtn.addEventListener("click", ()=> {
+    taskCon.style.display = "block"
+    mode.style.display = "none"
+})
+
 // To select normal note or Checkbox note
 mode.addEventListener("click",(e)=>{
     if(e.target.classList.contains("nNote")){
@@ -45,7 +60,7 @@ function createElement(list,e){
                 newElementli.innerHTML = todoList
                 newElementli.children[0].setAttribute('data-rtids' , rTid);
             // todoBox.appendChild(newElement)
-                newElement.firstChild.lastChild.appendChild(newElementli)
+                newElement.firstChild.lastChild.prepend(newElementli)
                 let dataIdattr = newElement.firstChild.getAttribute("data-ids")
                 console.log(dataIdattr);
                     modeTypes.forEach((val) => {
