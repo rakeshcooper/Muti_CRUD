@@ -32,8 +32,8 @@ function createElement(list,e){
     const newElement = document.createElement("li");
     newElement.innerHTML = list
     newElement.firstChild.setAttribute('data-ids' , rId);
-    services.appendChild(newElement)
-    modeTypes.push({list,rId,title:"",description:"",TList:[]})
+    services.prepend(newElement)
+    modeTypes.unshift({list,rId,title:"",description:"",TList:[]})
     // localStorage.setItem("NData",JSON.stringify(modeTypes))
     console.log(modeTypes);
     let todoaddele = newElement.querySelector(".addBtn")
@@ -50,7 +50,7 @@ function createElement(list,e){
                 console.log(dataIdattr);
                     modeTypes.forEach((val) => {
                 if (val.rId == dataIdattr) {
-                    val.TList.push({todoList,rTid,tododata:"",isChecked:false})
+                    val.TList.unshift({todoList,rTid,tododata:"",isChecked:false})
                     console.log(val.TList[0]);
                     localStorage.setItem("NData",JSON.stringify(modeTypes))
                 }
