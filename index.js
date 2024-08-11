@@ -60,12 +60,12 @@ function createElement(list,e){
                 newElementli.innerHTML = todoList
                 newElementli.children[0].setAttribute('data-rtids' , rTid);
             // todoBox.appendChild(newElement)
-                newElement.firstChild.lastChild.prepend(newElementli)
+                newElement.firstChild.lastChild.appendChild(newElementli)
                 let dataIdattr = newElement.firstChild.getAttribute("data-ids")
                 console.log(dataIdattr);
                     modeTypes.forEach((val) => {
                 if (val.rId == dataIdattr) {
-                    val.TList.unshift({todoList,rTid,tododata:"",isChecked:false})
+                    val.TList.push({todoList,rTid,tododata:"",isChecked:false})
                     console.log(val.TList[0]);
                     localStorage.setItem("NData",JSON.stringify(modeTypes))
                 }
