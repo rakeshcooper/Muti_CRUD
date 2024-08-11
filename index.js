@@ -92,7 +92,7 @@ function removefirstarr(){
                 filteredmodeTypes = modeTypes.filter((val) => {return val.rId !== dataIdattr});
                 console.log(filteredmodeTypes);
                 modeTypes = filteredmodeTypes
-                element.remove()
+                element..parentElement.remove()
                 localStorage.setItem("NData",JSON.stringify(modeTypes))
             }
         })
