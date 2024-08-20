@@ -5,9 +5,12 @@ let mode = document.querySelector(".mode")
 let services = document.querySelector(".service")
 let rTid
 let filteredtodoList = []
+let Nlist = `<div class="nodeList"><span class="close">✖</span><h4>Note title</h4><input type="text" name="name-title" class="name-title" id="name-title" placeholder="Enter Title"><textarea id="desc" class="desc" rows="4" cols="50" placeholder="Enter Description"></textarea></div>`
+let Clist =  `<div class="nodeList" ><span class="close">✖</span><h4>Note title</h4><input type="text" name="name-title" class="name-title" id="name-title" placeholder="Enter Title"><button class="addBtn">Add Task</button><ul class="todos"><h3>Todo List</h3> <p>Add tasks to display</p></ul></div>`
+let todoList = `<div class="todonodeList"><input type="text" name="tList" class="tList" id="tList" placeholder="Enter Task"><input type="checkbox" name="todoCheck"  class="todoCheck" id="todoCheck"><button class="delBtn">✖</button></div>`
 render()
 
-//to select mode
+//The below code used to select modes of list type
 
 let taskBtn = document.querySelector(".task-btn")
 let closeTaskBtn = document.querySelector(".close-task")
@@ -25,31 +28,28 @@ closeTaskBtn.addEventListener("click", ()=> {
 // To select normal note or Checkbox note
 mode.addEventListener("click",(e)=>{
     if(e.target.classList.contains("nNote")){
-        let Nlist = `<div class="nodeList"><span class="close">✖</span><h4>Note title</h4><input type="text" name="name-title" class="name-title" id="name-title" placeholder="Enter Title"><textarea id="desc" class="desc" rows="4" cols="50" placeholder="Enter Description"></textarea></div>`
-        createElement(Nlist)
+        let listType = "normalList"
+        createElement(Nlist,listType)
         console.log("normal note");
     } else if(e.target.classList.contains("cNote")){
-        let Clist =  `<div class="nodeList" ><span class="close">✖</span><h4>Note title</h4><input type="text" name="name-title" class="name-title" id="name-title" placeholder="Enter Title"><button class="addBtn">Add Task</button><ul class="todos"><h3>Todo List</h3>
-            <p>Add tasks to display</p></ul></div>`
-        createElement(Clist)
+        let listType = "checkboxList"    
+        createElement(Clist,listType)
         console.log("checkbox note");
     } 
-    // localStorage.setItem("NData",JSON.stringify(modeTypes))
     console.log("active");
    
 })
 let remove = document.querySelectorAll(".close")
 
 // This function is used to create element and pushed those element to array 
-function createElement(list,e){
+function createElement(list,listType){
     rId = crypto.randomUUID()
     console.log("normal note");
     const newElement = document.createElement("li");
     newElement.innerHTML = list
     newElement.firstChild.setAttribute('data-ids' , rId);
     services.prepend(newElement)
-    modeTypes.unshift({list,rId,title:"",description:"",TList:[]})
-    // localStorage.setItem("NData",JSON.stringify(modeTypes))
+    modeTypes.unshift({listType,rId,title:"",description:"",TList:[]})
     console.log(modeTypes);
     let todoaddele = newElement.querySelector(".addBtn")
    if(todoaddele){
@@ -59,13 +59,12 @@ function createElement(list,e){
                 const newElementli = document.createElement("li");
                 newElementli.innerHTML = todoList
                 newElementli.children[0].setAttribute('data-rtids' , rTid);
-            // todoBox.appendChild(newElement)
                 newElement.firstChild.lastChild.appendChild(newElementli)
                 let dataIdattr = newElement.firstChild.getAttribute("data-ids")
                 console.log(dataIdattr);
                     modeTypes.forEach((val) => {
                 if (val.rId == dataIdattr) {
-                    val.TList.push({todoList,rTid,tododata:"",isChecked:false})
+                    val.TList.push({rTid,tododata:"",isChecked:false})
                     console.log(val.TList[0]);
                     localStorage.setItem("NData",JSON.stringify(modeTypes))
                 }
@@ -126,7 +125,6 @@ function removefirstarr(){
 console.log(modeTypes);
 
 // This code to add todo list after reload
-let todoList = ` <div class="todonodeList"><input type="text" name="tList" class="tList" id="tList" placeholder="Enter Task"><input type="checkbox" name="todoCheck"  class="todoCheck" id="todoCheck"><button class="delBtn">✖</button></div>`
 function createTodoelement(){
     let addBtn = document.querySelectorAll(".addBtn")
     addBtn.forEach((element) => {
@@ -142,7 +140,7 @@ function createTodoelement(){
             let dataIdattr = element.parentElement.getAttribute("data-ids")
             modeTypes.forEach((val) => {
                 if (val.rId == dataIdattr) {
-                    val.TList.push({todoList,rTid,tododata:"",isChecked:false})
+                    val.TList.push({rTid,tododata:"",isChecked:false})
                 }
             })
             nestedarr()
@@ -154,7 +152,7 @@ function createTodoelement(){
 }
 
 
-    // This function to remove nested array and dom
+    // This function to remove todolist nested array and dom. To add checkbox true or false and to push to todolist data to dom and array.
 function nestedarr(){
     let todonodeList = document.querySelectorAll(".todonodeList")
     todonodeList.forEach((element => {
@@ -200,10 +198,8 @@ function nestedarr(){
                 }
         }
     })
-
-        // element.querySelectorAll(".todoCheck")
     
-        element.addEventListener("input", (e)=> {
+    element.addEventListener("input", (e)=> {
             let todovalue = e.target.classList.contains("tList")
             if(todovalue){
                 let datatodoIdattr = element.getAttribute("data-rtids")
@@ -227,7 +223,11 @@ function nestedarr(){
 function render(){    
     modeTypes.forEach((element) => {
             const newElement = document.createElement("li");
-            newElement.innerHTML = element.list
+            if(element.listType == "normalList"){
+                newElement.innerHTML = Nlist
+            } else {
+                newElement.innerHTML = Clist
+            }
             newElement.firstChild.setAttribute('data-ids' , element.rId);
             newElement.querySelector(".name-title").value = element.title
             if(newElement.firstChild.children[3].classList.contains("desc")){
@@ -238,7 +238,7 @@ function render(){
             element.TList.map((telement) => {
                 // let todoBox = document.querySelector(".todos")
                 const newtodoElement = document.createElement("li");
-                newtodoElement.innerHTML = telement.todoList
+                newtodoElement.innerHTML = todoList
                 newtodoElement.children[0].setAttribute('data-rtids' , telement.rTid);
                 // todoBox.append(newtodoElement)
                 newElement.children[0].lastChild.append(newtodoElement)
