@@ -10,7 +10,7 @@ let Clist =  `<div class="nodeList" ><span class="close">✖</span><h4>Note titl
 let todoList = `<div class="todonodeList"><input type="text" name="tList" class="tList" id="tList" placeholder="Enter Task"><input type="checkbox" name="todoCheck"  class="todoCheck" id="todoCheck"><button class="delBtn">✖</button></div>`
 render()
 
-//To select mode's
+//The below code used to select modes of list type
 
 let taskBtn = document.querySelector(".task-btn")
 let closeTaskBtn = document.querySelector(".close-task")
@@ -36,7 +36,6 @@ mode.addEventListener("click",(e)=>{
         createElement(Clist,listType)
         console.log("checkbox note");
     } 
-    // localStorage.setItem("NData",JSON.stringify(modeTypes))
     console.log("active");
    
 })
@@ -51,7 +50,6 @@ function createElement(list,listType){
     newElement.firstChild.setAttribute('data-ids' , rId);
     services.prepend(newElement)
     modeTypes.unshift({listType,rId,title:"",description:"",TList:[]})
-    // localStorage.setItem("NData",JSON.stringify(modeTypes))
     console.log(modeTypes);
     let todoaddele = newElement.querySelector(".addBtn")
    if(todoaddele){
@@ -61,7 +59,6 @@ function createElement(list,listType){
                 const newElementli = document.createElement("li");
                 newElementli.innerHTML = todoList
                 newElementli.children[0].setAttribute('data-rtids' , rTid);
-            //  todoBox.appendChild(newElement)
                 newElement.firstChild.lastChild.appendChild(newElementli)
                 let dataIdattr = newElement.firstChild.getAttribute("data-ids")
                 console.log(dataIdattr);
@@ -155,7 +152,7 @@ function createTodoelement(){
 }
 
 
-    // This function to remove nested array and dom
+    // This function to remove todolist nested array and dom. To add checkbox true or false and to push to todolist data to dom and array.
 function nestedarr(){
     let todonodeList = document.querySelectorAll(".todonodeList")
     todonodeList.forEach((element => {
@@ -201,10 +198,8 @@ function nestedarr(){
                 }
         }
     })
-
-        // element.querySelectorAll(".todoCheck")
     
-        element.addEventListener("input", (e)=> {
+    element.addEventListener("input", (e)=> {
             let todovalue = e.target.classList.contains("tList")
             if(todovalue){
                 let datatodoIdattr = element.getAttribute("data-rtids")
